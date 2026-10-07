@@ -1,7 +1,7 @@
 //acá importamos lo mismo que en HomePage.jsx, pero además importamos useForm que es un custom hook que nos permite manejar el estado de los formularios de manera más sencilla y limpia
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
-import { useForm } from 'useForm';
+import { useForm } from '../hooks/useForm';
 
 export const LoginPage = () => {
 //usamos el custom hook useForm para manejar el estado del formulario de login, inicializando los campos email y password como cadenas vacías
@@ -31,17 +31,21 @@ export const LoginPage = () => {
 //y esto es para las cookies, para que el servidor pueda reconocer al usuario y mantener la sesión iniciada
                 credentials: 'include'
             });
-//si la respuesta es ok, guardamos en el localStorage que el usuario está logueado y navegamos a la página principal, si no, mostramos un mensaje de error según el código de estado HTTP
+            const data = await response.json().catch(() => null);
+
+            //si la respuesta es ok, guardamos en el localStorage que el usuario está logueado y navegamos a la página principal, si no, mostramos un mensaje de error según el código de estado HTTP
             if (response.ok) {
                 localStorage.setItem('isLogged', 'true');
                 navigate('/'); 
             } else if (response.status === 401) {
-                setError('Credenciales incorrectas. Verifique su email y contraseña.');
+                setError(data?.message || 'Credenciales incorrectas. Verifique su email y contraseña.');
+            } else if (response.status === 400 && data?.errors?.length > 0) {
+                setError(data.errors.map(e => e.msg).join('. '));
             } else {
-                setError('Error en el servidor. Intente más tarde.');
+                setError(data?.message || 'Error en el servidor. Intente más tarde.');
             }
 //si hay algún error en la petición, lo capturamos y actualizamos el estado de error con un mensaje genérico
-        } catch (err) {
+        } catch {
             setError('Error de red. Verifique la conexión.');
         } finally {
 //finalmente ponemos isLoading en false para indicar que la petición terminó, haya sido exitosa o no
@@ -59,7 +63,7 @@ export const LoginPage = () => {
                         {error}
                     </div>
                 )}
-//el onsubmit del formulario llama a la función handleSubmit que maneja el envío del formulario y el estado de carga y error
+{/* el onsubmit del formulario llama a la función handleSubmit que maneja el envío del formulario y el estado de carga y error */}
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
@@ -84,7 +88,7 @@ export const LoginPage = () => {
                         type="submit" disabled={isLoading}
                         className="w-full bg-blue-600 text-white font-bold p-3 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
                     >
-//el texto del botón cambia según el estado de carga, mostrando "Ingresando..." cuando isLoading es true y "Entrar" cuando isLoading es false
+{/* el texto del botón cambia según el estado de carga, mostrando "Ingresando..." cuando isLoading es true y "Entrar" cuando isLoading es false */}
                         {isLoading ? 'Ingresando...' : 'Entrar'}
                     </button>
                 </form>
