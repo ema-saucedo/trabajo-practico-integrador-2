@@ -1,11 +1,9 @@
+//importamos el componente AppRouter que maneja las rutas de la aplicación
+import { AppRouter } from './router/AppRouter'
+//creamos el componente App que es el componente principal de la aplicación
 function App() {
-  return (
-    <div className="p-10 text-center">
-      <h1 className="text-3xl font-bold text-blue-600">
-        Tailwind y React funcionando
-      </h1>
-    </div>
-  )
+//retornamos el componente AppRouter que maneja las rutas de la aplicación
+  return <AppRouter />
 }
 
 export default App
