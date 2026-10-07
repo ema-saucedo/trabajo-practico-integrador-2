@@ -22,4 +22,4 @@ npm run dev
 
 La aplicación se ejecutará por defecto en `http://localhost:5173`.
 
-> Asegúrate de que el backend esté ejecutándose en `http://localhost:3000` antes de iniciar sesión o registrarte.
+
