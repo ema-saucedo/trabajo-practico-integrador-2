@@ -23,7 +23,7 @@ export const HomePage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {articles.map((article) => (
                     <div key={article.id} className="border border-gray-200 p-5 rounded-lg shadow-sm bg-white hover:shadow-md transition">
-//usamos el operador de encadenamiento opcional para evitar errores si article.author es null o undefined, y mostramos el nombre de usuario del autor o "Anónimo" si no hay autor
+{/*usamos el operador de encadenamiento opcional para evitar errores si article.author es null o undefined, y mostramos el nombre de usuario del autor o "Anónimo" si no hay autor*/}
                         <h2 className="text-xl font-bold text-slate-800 mb-2">{article.title}</h2>
                         <p className="text-gray-600 mb-4">{article.excerpt}</p>
                         <p className="text-sm font-medium text-blue-600">
